@@ -4,7 +4,9 @@
       <!-- <input type="checkbox" :checked="isAll" @change="checkAll"/> -->
       <input type="checkbox" />
     </label>
-    <span> <span>已完成</span> / 全部 </span>
+    <span>
+      <span>已完成{{ doneTotal }}</span> / 全部{{ todos.length }}
+    </span>
     <button class="btn btn-danger">清除已完成任务</button>
   </div>
 </template>
@@ -12,6 +14,20 @@
 <script>
 export default {
   name: "MyFooter",
+  props: ["todos"],
+  computed: {
+    doneTotal() {
+      // //清晰的写法
+      // const x= this.todos.reduce((pre, cur) => {
+      //   console.log(pre);
+      //   if (cur.done) {
+      //     return pre + 1;
+      //   }
+      //   return pre;
+      // }, 0);
+      return this.todos.reduce((pre, todo) => pre + (todo.done ? 1 : 0), 0);
+    },
+  },
 };
 </script>
 
