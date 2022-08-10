@@ -1,11 +1,11 @@
 <template>
-  <div class="todo-footer">
+  <div class="todo-footer" v-show="total">
     <label>
       <!-- <input type="checkbox" :checked="isAll" @change="checkAll"/> -->
-      <input type="checkbox" />
+      <input type="checkbox" :checked="isAll" @change="checkAll" />
     </label>
     <span>
-      <span>已完成{{ doneTotal }}</span> / 全部{{ todos.length }}
+      <span>已完成{{ doneTotal }}</span> / 全部{{ total }}
     </span>
     <button class="btn btn-danger">清除已完成任务</button>
   </div>
@@ -14,8 +14,11 @@
 <script>
 export default {
   name: "MyFooter",
-  props: ["todos"],
+  props: ["todos", "checkAllTodo"],
   computed: {
+    total() {
+      return this.todos.length;
+    },
     doneTotal() {
       // //清晰的写法
       // const x= this.todos.reduce((pre, cur) => {
@@ -26,6 +29,14 @@ export default {
       //   return pre;
       // }, 0);
       return this.todos.reduce((pre, todo) => pre + (todo.done ? 1 : 0), 0);
+    },
+    isAll() {
+      return this.doneTotal === this.total && this.total > 0;
+    },
+  },
+  methods: {
+    checkAll(e) {
+      this.checkAllTodo(e.target.checked);
     },
   },
 };
