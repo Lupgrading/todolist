@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /*item*/
 li {
   list-style: none;
