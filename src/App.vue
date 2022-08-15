@@ -57,6 +57,12 @@ export default {
     clearAllTodo() {
       this.todos = this.todos.filter((todo) => !todo.done);
     },
+    //更新一个todo
+    updateTodo(id, title) {
+      this.todos.forEach((todo) => {
+        if (todo.id === id) todo.title = title;
+      });
+    },
   },
   watch: {
     todos: {
@@ -69,10 +75,12 @@ export default {
   mounted() {
     this.$bus.$on("checkTodo", this.checkTodo);
     this.pubId = pubsub.subscribe("deleteTodo", this.deleteTodo);
+    this.$bus.$on("updateTodo", this.updateTodo);
   },
   beforeDestroy() {
     this.$bus.$off("checkTodo");
     pubsub.unsubscribe(this.pubId);
+    this.$bus.$off("updateTodo");
   },
 };
 </script>
